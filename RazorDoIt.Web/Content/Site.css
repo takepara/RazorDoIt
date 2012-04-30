@@ -1,0 +1,153 @@
+body
+{
+    padding:2pt;
+    margin:2pt;
+}
+
+h1,h2,h3,h4,h5,h6
+{
+    font-weight:bold;
+}
+
+h1
+{
+    font-size:200%;
+    text-shadow: gray 1px 2px 2px;
+    filter:Shadow(Strength=3, Direction=135, Color='#999999'); zoom:1;
+}
+
+h5
+{
+    margin-top: 8pt;
+}
+
+p
+{
+    padding:4pt 0 ;
+}
+
+ul
+{
+    padding:0 0 0 16pt;
+    list-style-type:disc;
+}
+
+.menu
+{
+    position:absolute;
+    right:1em;
+    top:1em;
+    vertical-align:top;
+}
+
+.twitter{}
+.facebook_like
+{
+    position:relative;
+    top:5px;
+}
+.hatena{}
+
+.contents
+{
+    width:97%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.socials
+{
+    height:25px;
+    position:absolute;
+    right:1em;
+    vertical-align:bottom;
+}
+
+.helps
+{
+    border-radius: 10px;        /* CSS3ëêàƒ */  
+    -webkit-border-radius: 10px;    /* Safari,Google Chromeóp */  
+    -moz-border-radius: 10px;   /* Firefoxóp */  
+    
+    padding:4pt;
+    margin:30pt 8pt 0 8pt;
+    color:#404040;
+    border:1px solid #d0d0d0;
+    background-color:#f0f0f0;
+}
+
+div.grippie
+{
+    background: #EEEEEE url(grippie.png) no-repeat scroll center 2px;
+    border-color: #DDDDDD;
+    border-style: solid;
+    border-width: 0pt 1px 1px;
+    cursor: s-resize;
+    height: 9px;
+    overflow: hidden;
+}
+
+.resizable-textarea textarea,
+#razor-form textarea
+{
+    display: block;
+    margin-bottom: 0pt;
+    width: 100%;
+    height: 15em;
+}
+
+#razor-form .title
+{
+    font-size:130%;
+    width: 100%;
+}
+
+#razor-form .language
+{
+}
+
+#razor-form .tags
+{
+    font-size:100%;
+    width: 100%;
+}
+
+#razor-form .info
+{
+    color:#808080;
+    font-size:80%;
+}
+
+.tipped {
+	color: #BBB;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}

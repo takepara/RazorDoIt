@@ -1,0 +1,27 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    var compileException = Model.Exception as HttpCompileException;
+    var parseException = Model.Exception as HttpParseException;
+}
+@if (compileException != null)
+{
+<text>
+@Html.Raw(compileException.Message)
+
+@Html.Raw(compileException.SourceCode)
+</text>
+}
+else if (parseException != null)
+{
+    foreach(ParserError parserError in parseException.ParserErrors){
+<text>
+@Html.Raw(parserError.Line + "行目 - "+ parserError.ErrorText)
+</text>
+    }
+}
+else
+{
+<text>
+@Html.Raw(Model.Exception.Message)
+</text>
+}

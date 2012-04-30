@@ -1,0 +1,111 @@
+﻿@model RazorDoIt.Models.Template
+@Html.ValidationSummary()
+@using (Html.BeginForm("Command", "Home", new { id = Model.UrlKey }, FormMethod.Post, new { id = "razor-form" }))
+{ 
+    <h5>
+        Title</h5>
+    @Html.TextBoxFor(m => m.Title, new { @class = "title help", title = "タイトルを入力してください" })
+    <h5>
+        Razor</h5>
+    @Html.TextAreaFor(m => m.Razor, new { @class = "template resizable help", title = "cshtml/vbhtmlのRazorテンプレートを入力してください" })
+    @Html.DropDownListFor(m => m.Language, new SelectList(Model.Languages), new { @class = "language" })
+
+    if (Model.Id != 0 && Model.Account != null){
+
+        <div class="info">
+        create at @Model.CreateAt by <a href="http://twitter.com/#/@Model.Account.UserName" target="_blank">
+            @@@Model.Account.UserName</a>
+        </div>
+    
+    }
+    
+    <h5>Tags</h5>
+    @Html.TextBoxFor(m => m.TagsValue, new { @class = "tags help", title = "スペース区切りでタグを入力してください" })
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ParentId)
+
+    @AntiForgery.GetHtml()
+    <p>
+        <input type="submit" name="Command" value="Execute" />
+        @if (Model.Id != 0)
+        {
+            <input type="submit" name="Command" value="Copy" />
+        }
+        else
+        {
+            if (Request.IsAuthenticated)
+            {
+            <input type="submit" name="Command" value="Save" />
+            }
+        }
+    </p>
+}
+<iframe id="response_frame" name="response_frame" style="width: 0; height: 0; display: none;">
+</iframe>
+<div id="response" style="display: none;">
+</div>
+@section PageScripts {
+    <script type="text/javascript">
+        $(function () {
+            $('form input.help, form textarea.help').formtips({
+                tippedClass: 'tipped'
+            });
+
+            $("form input[type=submit]").click(function () {
+                $("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+                $(this).attr("clicked", "true");
+            });
+
+            $("#razor-form").bind("submit", function (e) {
+                var command = $("input[type=submit][clicked=true]").val();
+                if (command != "Execute")
+                    return true;
+
+                $.fancybox.showActivity();
+                var formData = $(this).serialize();
+                if (formData.indexOf("Command=") < 0)
+                    formData += "&Command=" + command;
+                $.ajax({
+                    type: "POST",
+                    cache: false,
+                    url: $(this).attr("action"),
+                    data: formData,
+                    timeout: 10000,
+                    success: function (data) {
+                        if ($.browser.msie && parseFloat($.browser.version)<9)
+                            data = data.replace(/\n/g, "<br />");
+                        var html = $("<pre class='prettyprint lang-html' id='output' />").append(data);
+
+                        $("#preview").remove();
+                        $.fancybox(
+                        "<span id='preview' />",
+		                {
+		                    autoDimensions: false,
+		                    width: "90%",
+		                    height: "90%"
+		                }
+                    );
+                        $("#preview").html(html);
+                        prettyPrint();
+                    },
+                    error: function () {
+                        $("#preview").remove();
+                        $.fancybox(
+                        "<span id='preview'>通信エラーが発生しました</span>",
+		                {
+		                    autoDimensions: false,
+		                    width: "400px",
+		                    height: "300px"
+		                }
+                    );
+                    },
+                    complete: function () {
+                        $.fancybox.hideActivity();
+                    }
+                });
+
+                e.preventDefault();
+            });
+        });
+    </script>
+}
